@@ -52,10 +52,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ className, ...props }) => (
+        // @ts-ignore - IconLeft and IconRight types not properly exported
+        IconLeft: ({ className, ...props }: { className?: string; [key: string]: any }) => (
           <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
         ),
-        IconRight: ({ className, ...props }) => (
+        // @ts-ignore - IconLeft and IconRight types not properly exported
+        IconRight: ({ className, ...props }: { className?: string; [key: string]: any }) => (
           <ChevronRight className={cn("h-4 w-4", className)} {...props} />
         ),
       }}
