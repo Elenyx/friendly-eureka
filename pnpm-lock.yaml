@@ -164,6 +164,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      node-gyp:
+        specifier: ^10.2.0
+        version: 10.3.1
       passport:
         specifier: ^0.7.0
         version: 0.7.0
@@ -282,9 +285,6 @@ importers:
       esbuild:
         specifier: ^0.25.9
         version: 0.25.9
-      node-gyp:
-        specifier: ^10.2.0
-        version: 10.3.1
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
