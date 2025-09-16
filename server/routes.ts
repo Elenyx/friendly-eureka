@@ -1,9 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
-import { storage } from "./storage";
-import { z } from "zod";
-import { insertUserSchema } from "@shared/schema";
+import { storage } from "./storage.js";
 import session from "express-session";
 import passport from "passport";
 import { Strategy as DiscordStrategy } from "passport-discord";
@@ -46,7 +44,7 @@ passport.use(new DiscordStrategy({
     
     return done(null, user);
   } catch (error) {
-    return done(error, null);
+    return done(error, false);
   }
 }));
 
@@ -57,9 +55,9 @@ passport.serializeUser((user: any, done) => {
 passport.deserializeUser(async (id: string, done) => {
   try {
     const user = await storage.getUser(id);
-    done(null, user);
+    done(null, user || false);
   } catch (error) {
-    done(error, null);
+    done(error, false);
   }
 });
 

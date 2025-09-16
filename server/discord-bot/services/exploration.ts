@@ -1,6 +1,6 @@
-import { IStorage } from '../../storage';
-import { User, Ship, Sector } from '@shared/schema';
-import { UniverseGenerator } from '../utils/universe-generator';
+import { IStorage } from '../../storage.js';
+import { User, Ship, Sector } from '../../../shared/schema.js';
+import { UniverseGenerator } from '../utils/universe-generator.js';
 
 export class ExplorationService {
   constructor(private storage: IStorage) {}

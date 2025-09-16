@@ -17,36 +17,37 @@ import {
   Calendar,
   MapPin
 } from 'lucide-react';
+import { UserProfile, Ship, BattleWithShips, ExplorationWithSector, InventoryWithItem, GlobalStats } from '@shared/schema';
 
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
 
-  const { data: profile, isLoading: profileLoading } = useQuery({
+  const { data: profile, isLoading: profileLoading } = useQuery<UserProfile>({
     queryKey: ['/api/users/profile'],
     enabled: isAuthenticated,
   });
 
-  const { data: ships, isLoading: shipsLoading } = useQuery({
+  const { data: ships, isLoading: shipsLoading } = useQuery<Ship[]>({
     queryKey: ['/api/ships/my-ships'],
     enabled: isAuthenticated,
   });
 
-  const { data: activeShip } = useQuery({
+  const { data: activeShip } = useQuery<Ship>({
     queryKey: ['/api/ships/active'],
     enabled: isAuthenticated,
   });
 
-  const { data: inventory } = useQuery({
+  const { data: inventory } = useQuery<InventoryWithItem[]>({
     queryKey: ['/api/inventory'],
     enabled: isAuthenticated,
   });
 
-  const { data: explorations } = useQuery({
+  const { data: explorations } = useQuery<ExplorationWithSector[]>({
     queryKey: ['/api/explorations/history'],
     enabled: isAuthenticated,
   });
 
-  const { data: battles } = useQuery({
+  const { data: battles } = useQuery<BattleWithShips[]>({
     queryKey: ['/api/battles/history'],
     enabled: isAuthenticated,
   });

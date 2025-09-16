@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { IStorage } from '../../storage';
+import { IStorage } from '../../storage.js';
 
 export const profileCommand = {
   data: new SlashCommandBuilder()

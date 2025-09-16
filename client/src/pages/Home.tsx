@@ -1,8 +1,8 @@
-import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
+import { GlobalStats } from '@shared/schema';
 import { 
   Rocket, 
   Coins, 
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export default function Home() {
-  const { data: globalStats } = useQuery({
+  const { data: globalStats } = useQuery<GlobalStats>({
     queryKey: ['/api/stats/global'],
   });
 

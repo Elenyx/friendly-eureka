@@ -1,6 +1,5 @@
-import { storage } from '../storage';
-import { insertUserSchema } from '@shared/schema';
-import { z } from 'zod';
+import { storage } from '../storage.js';
+import { insertUserSchema } from '../../shared/schema.js';
 
 export interface AuthUser {
   id: string;
@@ -130,10 +129,10 @@ export class AuthService {
       guild,
       stats: {
         totalShips: ships.length,
-        totalItems: inventory.reduce((sum, inv) => sum + inv.inventory.quantity, 0),
+        totalItems: inventory.reduce((sum, inv) => sum + inv.quantity, 0),
         winRate: battles.length > 0 ? 
-          (battles.filter(b => b.battles.winner === userId).length / battles.length) * 100 : 0,
-        lastExploration: explorations[0]?.exploration.createdAt || null,
+          (battles.filter(b => b.winner === userId).length / battles.length) * 100 : 0,
+        lastExploration: explorations[0]?.createdAt || null,
       }
     };
   }

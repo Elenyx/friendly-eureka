@@ -2,13 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
-
-interface User {
-  id: string;
-  discordId: string;
-  username: string;
-  avatar?: string;
-}
+import { User } from '@shared/schema';
 
 interface AuthContextType {
   user: User | null;
@@ -25,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: user, isLoading: userLoading, error } = useQuery({
+  const { data: user, isLoading: userLoading, error } = useQuery<User | null>({
     queryKey: ['/api/auth/user'],
     retry: false,
     enabled: true,

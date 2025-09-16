@@ -1,0 +1,9 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "start": "NODE_ENV=production node dist/index.js"
+  }
+}

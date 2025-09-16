@@ -1,5 +1,5 @@
-import { IStorage } from '../../storage';
-import { Ship } from '@shared/schema';
+import { IStorage } from '../../storage.js';
+import { Ship } from '../../../shared/schema.js';
 
 export class CombatService {
   constructor(private storage: IStorage) {}

@@ -4,8 +4,8 @@ import {
   type Item, type InsertItem, type Inventory, type InsertInventory, type MarketListing, 
   type InsertMarketListing, type Battle, type InsertBattle, type Guild, type InsertGuild,
   type GuildMember, type InsertGuildMember, type Exploration, type InsertExploration
-} from "@shared/schema";
-import { db } from "./db";
+} from "../shared/schema.js";
+import { db } from "./db.js";
 import { eq, desc, asc, and, or, gt, lt, sql, count, sum } from "drizzle-orm";
 
 export interface IStorage {

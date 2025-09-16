@@ -1,6 +1,7 @@
+/// <reference types="node" />
 import passport from 'passport';
 import { Strategy as DiscordStrategy } from 'passport-discord';
-import { authService } from './auth';
+import { authService } from './auth.js';
 
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID || '';
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || '';
@@ -17,7 +18,7 @@ export function setupDiscordOAuth() {
       return done(null, user);
     } catch (error) {
       console.error('Discord OAuth error:', error);
-      return done(error, null);
+      return done(error, false);
     }
   }));
 
@@ -28,9 +29,9 @@ export function setupDiscordOAuth() {
   passport.deserializeUser(async (id: string, done) => {
     try {
       const user = await authService.refreshUserData(id);
-      done(null, user);
+      done(null, user || false);
     } catch (error) {
-      done(error, null);
+      done(error, false);
     }
   });
 }
@@ -39,7 +40,7 @@ export function getDiscordLoginURL(state?: string): string {
   const baseURL = 'https://discord.com/api/oauth2/authorize';
   const params = new URLSearchParams({
     client_id: DISCORD_CLIENT_ID,
-    redirect_uri: process.env.DISCORD_REDIRECT_URI || 'http://localhost:5000/api/auth/discord/callback',
+    redirect_uri: process.env.DISCORD_REDIRECT_URI || 'https://nexium-rpg.win/api/auth/discord/callback',
     response_type: 'code',
     scope: 'identify email',
   });

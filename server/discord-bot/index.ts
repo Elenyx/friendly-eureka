@@ -1,11 +1,12 @@
+import 'dotenv/config';
 import { Client, GatewayIntentBits, Collection, Events, REST, Routes } from 'discord.js';
-import { storage } from '../storage';
-import { exploreCommand } from './commands/explore';
-import { scanCommand } from './commands/scan';
-import { jumpCommand } from './commands/jump';
-import { battleCommand } from './commands/battle';
-import { profileCommand } from './commands/profile';
-import { marketCommand } from './commands/market';
+import { storage } from '../storage.js';
+import { exploreCommand } from './commands/explore.js';
+import { scanCommand } from './commands/scan.js';
+import { jumpCommand } from './commands/jump.js';
+import { battleCommand } from './commands/battle.js';
+import { profileCommand } from './commands/profile.js';
+import { marketCommand } from './commands/market.js';
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || 'your_bot_token';
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID || 'your_client_id';
@@ -102,7 +103,7 @@ class NexiumBot {
 }
 
 // Initialize and start bot if running directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1].includes('discord-bot/index')) {
   const bot = new NexiumBot();
   bot.start().catch(console.error);
 }

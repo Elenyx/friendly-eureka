@@ -17,26 +17,16 @@ import {
   Target,
   Users
 } from 'lucide-react';
-
-interface LeaderboardPlayer {
-  id: string;
-  username: string;
-  avatar?: string;
-  nexiumCrystals: string;
-  rank: number;
-  totalExplored: number;
-  totalBattlesWon: number;
-  joinedAt: string;
-}
+import { LeaderboardPlayer, GlobalStats } from '@shared/schema';
 
 export default function Leaderboards() {
   const [selectedCategory, setSelectedCategory] = useState<'crystals' | 'exploration' | 'combat'>('crystals');
 
-  const { data: topPlayers, isLoading } = useQuery({
+  const { data: topPlayers, isLoading } = useQuery<LeaderboardPlayer[]>({
     queryKey: ['/api/users/leaderboard', { limit: 50 }],
   });
 
-  const { data: globalStats } = useQuery({
+  const { data: globalStats } = useQuery<GlobalStats>({
     queryKey: ['/api/stats/global'],
   });
 
@@ -213,7 +203,7 @@ export default function Leaderboards() {
                             {getRankIcon(index + 1)}
                           </div>
                           <Avatar className="w-12 h-12">
-                            <AvatarImage src={player.avatar} alt={player.username} />
+                            <AvatarImage src={player.avatar || undefined} alt={player.username} />
                             <AvatarFallback>{player.username.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                         </div>
@@ -285,7 +275,7 @@ export default function Leaderboards() {
                             {getRankIcon(index + 1)}
                           </div>
                           <Avatar className="w-12 h-12">
-                            <AvatarImage src={player.avatar} alt={player.username} />
+                            <AvatarImage src={player.avatar || undefined} alt={player.username} />
                             <AvatarFallback>{player.username.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                         </div>
@@ -357,7 +347,7 @@ export default function Leaderboards() {
                             {getRankIcon(index + 1)}
                           </div>
                           <Avatar className="w-12 h-12">
-                            <AvatarImage src={player.avatar} alt={player.username} />
+                            <AvatarImage src={player.avatar || undefined} alt={player.username} />
                             <AvatarFallback>{player.username.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                         </div>

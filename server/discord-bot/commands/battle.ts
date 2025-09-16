@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { IStorage } from '../../storage';
-import { CombatService } from '../services/combat';
+import { IStorage } from '../../storage.js';
+import { CombatService } from '../services/combat.js';
 
 export const battleCommand = {
   data: new SlashCommandBuilder()
@@ -110,13 +110,13 @@ export const battleCommand = {
       });
 
       // Award rewards to winner
-      const crystalReward = Math.floor(loser.nexiumCrystals * 0.05); // 5% of loser's crystals
+      const crystalReward = Math.floor(parseFloat(loser.nexiumCrystals) * 0.05); // 5% of loser's crystals
       await storage.updateUser(winner.id, {
-        nexiumCrystals: parseFloat(winner.nexiumCrystals) + crystalReward,
+        nexiumCrystals: (parseFloat(winner.nexiumCrystals) + crystalReward).toString(),
       });
 
       await storage.updateUser(loser.id, {
-        nexiumCrystals: Math.max(0, parseFloat(loser.nexiumCrystals) - crystalReward),
+        nexiumCrystals: Math.max(0, parseFloat(loser.nexiumCrystals) - crystalReward).toString(),
       });
 
       // Log battle

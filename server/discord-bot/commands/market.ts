@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { IStorage } from '../../storage';
+import { IStorage } from '../../storage.js';
 
 export const marketCommand = {
   data: new SlashCommandBuilder()

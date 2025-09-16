@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import { IStorage } from '../../storage';
-import { ExplorationService } from '../services/exploration';
+import { IStorage } from '../../storage.js';
+import { ExplorationService } from '../services/exploration.js';
 
 export const exploreCommand = {
   data: new SlashCommandBuilder()

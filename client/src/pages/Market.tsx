@@ -18,27 +18,7 @@ import {
   User,
   Filter
 } from 'lucide-react';
-
-interface MarketListing {
-  marketListings: {
-    id: string;
-    quantity: number;
-    pricePerUnit: string;
-    totalPrice: string;
-    createdAt: string;
-    expiresAt: string;
-  };
-  item: {
-    id: string;
-    name: string;
-    description: string;
-    itemType: string;
-    rarity: string;
-  };
-  seller: {
-    username: string;
-  };
-}
+import { MarketListingWithItem, InventoryWithItem } from '@shared/schema';
 
 export default function Market() {
   const { isAuthenticated } = useAuth();
@@ -47,16 +27,16 @@ export default function Market() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRarity, setSelectedRarity] = useState<string>('all');
 
-  const { data: listings, isLoading } = useQuery({
+  const { data: listings, isLoading } = useQuery<MarketListingWithItem[]>({
     queryKey: ['/api/market/listings'],
   });
 
-  const { data: myListings } = useQuery({
+  const { data: myListings } = useQuery<MarketListingWithItem[]>({
     queryKey: ['/api/market/my-listings'],
     enabled: isAuthenticated,
   });
 
-  const { data: inventory } = useQuery({
+  const { data: inventory } = useQuery<InventoryWithItem[]>({
     queryKey: ['/api/inventory'],
     enabled: isAuthenticated,
   });
@@ -84,7 +64,7 @@ export default function Market() {
     },
   });
 
-  const filteredListings = listings?.filter((listing: MarketListing) => {
+  const filteredListings = listings?.filter((listing: MarketListingWithItem) => {
     const matchesSearch = listing.item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          listing.item.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRarity = selectedRarity === 'all' || listing.item.rarity === selectedRarity;
@@ -199,7 +179,7 @@ export default function Market() {
               </Card>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="market-listings">
-                {filteredListings.map((listing: MarketListing) => (
+                {filteredListings.map((listing: MarketListingWithItem) => (
                   <Card key={listing.marketListings.id} className="glass-effect hover:glow-effect transition-all">
                     <CardContent className="p-6">
                       <div className="space-y-4">
@@ -340,7 +320,7 @@ export default function Market() {
                   </div>
                 ) : (
                   <div className="space-y-4" data-testid="my-active-listings">
-                    {myListings.map((listing: any, index: number) => (
+                    {myListings.map((listing: MarketListingWithItem, index: number) => (
                       <Card key={index} className="border border-border">
                         <CardContent className="p-4">
                           <div className="flex justify-between items-start">

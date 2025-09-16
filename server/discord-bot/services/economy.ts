@@ -1,5 +1,5 @@
-import { IStorage } from '../../storage';
-import { User, Item } from '@shared/schema';
+import { IStorage } from '../../storage.js';
+import { User, Item } from '../../../shared/schema.js';
 
 export class EconomyService {
   constructor(private storage: IStorage) {}

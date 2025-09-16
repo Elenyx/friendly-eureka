@@ -390,3 +390,69 @@ export type GuildMember = typeof guildMembers.$inferSelect;
 export type InsertGuildMember = z.infer<typeof insertGuildMemberSchema>;
 export type Exploration = typeof explorations.$inferSelect;
 export type InsertExploration = z.infer<typeof insertExplorationSchema>;
+
+export type GlobalStats = {
+  totalPlayers: number;
+  totalSectorsExplored: number;
+  totalBattles: number;
+  totalCrystalsInCirculation: string;
+};
+
+// API Response Types for Frontend
+export type UserProfile = User & {
+  ships?: Ship[];
+  inventory?: InventoryWithItem[];
+  battles?: BattleWithShips[];
+};
+
+export type InventoryWithItem = {
+  item: Item;
+  inventory: Inventory;
+};
+
+export type BattleWithShips = {
+  battles: Battle & {
+    attackerShip: Ship;
+    defenderShip: Ship;
+    attacker: User;
+    defender: User;
+    winner?: User;
+  };
+};
+
+export type ExplorationWithSector = {
+  exploration: Exploration;
+  sector: Sector;
+  ship: Ship;
+};
+
+export type MarketListingWithItem = {
+  marketListings: MarketListing;
+  item: Item;
+  seller: User;
+};
+
+export type LeaderboardPlayer = User & {
+  winRate?: number;
+  totalBattles?: number;
+};
+
+export type DashboardData = {
+  profile: UserProfile;
+  activeShip?: Ship;
+  battles: BattleWithShips[];
+  explorations: ExplorationWithSector[];
+  inventory: InventoryWithItem[];
+  globalStats: GlobalStats;
+};
+
+export type LeaderboardData = {
+  topPlayers: LeaderboardPlayer[];
+  globalStats: GlobalStats;
+};
+
+export type MarketData = {
+  listings: MarketListingWithItem[];
+  userInventory: InventoryWithItem[];
+  userListings: MarketListingWithItem[];
+};
