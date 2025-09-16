@@ -12,11 +12,11 @@ export default defineConfig({
       ? [
           await import("@replit/vite-plugin-cartographer").then((m) =>
             m.cartographer(),
-          ),
+          ).catch(() => null),
           await import("@replit/vite-plugin-dev-banner").then((m) =>
             m.devBanner(),
-          ),
-        ]
+          ).catch(() => null),
+        ].filter(Boolean)
       : []),
   ],
   resolve: {
