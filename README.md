@@ -4,6 +4,79 @@
 
 Nexium RPG is a space exploration Discord bot and web application built with React, Express, and PostgreSQL. The system provides a comprehensive MMO-style gaming experience where players can explore procedurally generated space sectors, command starships, engage in combat, participate in a player-driven economy, and build cosmic empires. The application features both Discord bot commands for in-game interactions and a modern web dashboard for fleet management and market activities.
 
+## Quick Start
+
+### Prerequisites
+
+- **Node.js** (v18 or higher)
+- **pnpm** package manager
+- **PostgreSQL** database (local or cloud)
+- **Discord Application** (for bot and OAuth)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <your-repo-url>
+   cd nexium-bot
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Environment Setup**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Fill in the required environment variables in `.env`:
+   - `DATABASE_URL`: PostgreSQL connection string
+   - `DISCORD_BOT_TOKEN`: From Discord Developer Portal
+   - `DISCORD_CLIENT_ID`: Discord Application ID
+   - `DISCORD_CLIENT_SECRET`: Discord OAuth Client Secret
+   - `SESSION_SECRET`: Random string for session encryption
+
+4. **Database Setup**
+
+   ```bash
+   # Generate and run migrations
+   pnpm db:generate
+   pnpm db:migrate
+   ```
+
+5. **Development Server**
+
+   ```bash
+   # Start both client and server in development mode
+   pnpm dev
+   ```
+
+6. **Production Build**
+
+   ```bash
+   # Build for production
+   pnpm build
+
+   # Start production server
+   pnpm start
+   ```
+
+### Discord Bot Setup
+
+1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
+2. Create a new application
+3. Go to "Bot" section and create a bot
+4. Copy the bot token to your `.env` file
+5. Go to "OAuth2" section:
+   - Add redirect URI: `http://localhost:5000/api/auth/discord/callback`
+   - Copy Client ID and Client Secret to `.env`
+6. Invite the bot to your server with appropriate permissions
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
