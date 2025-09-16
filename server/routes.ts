@@ -7,6 +7,7 @@ import passport from "passport";
 import { Strategy as DiscordStrategy } from "passport-discord";
 import { createClient } from "redis";
 import { RedisStore } from "connect-redis";
+import MemoryStore from "memorystore";
 
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID || "your_discord_client_id";
 const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || "your_discord_client_secret";
@@ -64,20 +65,32 @@ passport.deserializeUser(async (id: string, done) => {
 });
 
 export async function registerRoutes(app: Express): Promise<{ server: Server; redisClient: any }> {
-  // Redis client setup
-  const redisClient = createClient({
-    url: process.env.REDIS_URL || 'redis://localhost:6379'
-  });
+  let redisClient: any = null;
+  let store: any;
 
-  redisClient.on('error', (err: Error) => console.log('Redis Client Error', err));
-  await redisClient.connect();
+  if (process.env.NODE_ENV === 'production') {
+    // Redis client setup for production
+    redisClient = createClient({
+      url: process.env.REDIS_URL || 'redis://localhost:6379'
+    });
 
-  // Session configuration with Redis store
+    redisClient.on('error', (err: Error) => console.log('Redis Client Error', err));
+    await redisClient.connect();
+
+    store = new RedisStore({ client: redisClient });
+  } else {
+    // Memory store for development
+    const MemoryStoreSession = MemoryStore(session);
+    // Memorystore requires an options object; pass checkPeriod
+    store = new MemoryStoreSession({ checkPeriod: 86400000 });
+  }
+
+  // Session configuration
   app.use(session({
     secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new RedisStore({ client: redisClient }),
+    store,
     cookie: {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000 // 24 hours

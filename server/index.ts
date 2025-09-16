@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes.js";
 import { setupVite, serveStatic, log } from "./vite.js";
@@ -64,7 +65,6 @@ app.use((req, res, next) => {
   server.listen({
     port,
     host: "0.0.0.0",
-    reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
   });
@@ -72,7 +72,7 @@ app.use((req, res, next) => {
   // Graceful shutdown
   process.on('SIGTERM', async () => {
     log('SIGTERM received, shutting down gracefully');
-    await redisClient.disconnect();
+    if (redisClient) await redisClient.disconnect();
     server.close(() => {
       log('Server closed');
       process.exit(0);
@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 
   process.on('SIGINT', async () => {
     log('SIGINT received, shutting down gracefully');
-    await redisClient.disconnect();
+    if (redisClient) await redisClient.disconnect();
     server.close(() => {
       log('Server closed');
       process.exit(0);

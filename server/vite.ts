@@ -46,7 +46,8 @@ export async function setupVite(app: Express, server: Server) {
   });
 
   app.use(vite.middlewares);
-  app.use("*", async (req, res, next) => {
+  // Express 5 uses path-to-regexp v6, avoid string "*" which throws PathError
+  app.use(async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -84,7 +85,8 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
+  // In Express 5, don't use the string "*" (PathError). Use no path to match all.
+  app.use((_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
