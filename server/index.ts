@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes.js";
 import { setupVite, serveStatic, log } from "./vite.js";
+import { NexiumBot } from "./discord-bot/index.js";
 
 const app = express();
 app.use(express.json());
@@ -55,6 +56,19 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   } else {
     serveStatic(app);
+  }
+
+  // Start Discord bot (non-blocking)
+  try {
+    if (process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_BOT_TOKEN !== 'your_bot_token') {
+      const bot = new NexiumBot();
+      bot.start().then(() => log("Discord bot started" , "discord"))
+        .catch((e) => log(`Discord bot failed to start: ${String(e)}`, "discord"));
+    } else {
+      log("DISCORD_BOT_TOKEN not set or is placeholder; skipping bot startup", "discord");
+    }
+  } catch (e) {
+    log(`Discord bot init error: ${String(e)}`, "discord");
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
