@@ -83,8 +83,12 @@ class NexiumBot {
       );
 
       console.log('Successfully reloaded application (/) commands.');
-    } catch (error) {
-      console.error('Error deploying commands:', error);
+    } catch (error: any) {
+      console.error('Error deploying commands:', error.message || error);
+      if (error.response) {
+        console.error('HTTP Status:', error.response.status);
+        console.error('Response Data:', error.response.data);
+      }
     }
   }
 
