@@ -63,7 +63,7 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full" data-testid="user-menu">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={user.avatar ?? ""} alt={user.username} />
+                      <AvatarImage src={user.avatar} alt={user.username} />
                       <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
@@ -113,7 +113,7 @@ export function Navbar() {
                       <div className="border-t border-border pt-4">
                         <div className="flex items-center space-x-3 px-4 py-2">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={user.avatar ?? ""} alt={user.username} />
+                            <AvatarImage src={user.avatar} alt={user.username} />
                             <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                           </Avatar>
                           <span className="font-medium">{user.username}</span>
