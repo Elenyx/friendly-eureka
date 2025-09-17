@@ -107,3 +107,6 @@ Desktop.ini
 # Local development
 .replit
 replit.nix
+
+# Docs
+.attached_assets/
