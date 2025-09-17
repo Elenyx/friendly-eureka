@@ -70,14 +70,22 @@ export async function registerRoutes(app: Express): Promise<{ server: Server; re
 
   if (process.env.NODE_ENV === 'production') {
     // Redis client setup for production
-    redisClient = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379'
-    });
+    try {
+      redisClient = createClient({
+        url: process.env.REDIS_URL || 'redis://localhost:6379'
+      });
 
-    redisClient.on('error', (err: Error) => console.log('Redis Client Error', err));
-    await redisClient.connect();
+      await redisClient.connect();
+      
+      redisClient.on('error', (err: Error) => console.log('Redis Client Error', err));
 
-    store = new RedisStore({ client: redisClient });
+      store = new RedisStore({ client: redisClient });
+    } catch (error) {
+      console.log('Failed to connect to Redis, falling back to memory store:', error);
+      // Fall back to memory store
+      const MemoryStoreSession = MemoryStore(session);
+      store = new MemoryStoreSession({ checkPeriod: 86400000 });
+    }
   } else {
     // Memory store for development
     const MemoryStoreSession = MemoryStore(session);
